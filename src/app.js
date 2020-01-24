@@ -6,7 +6,7 @@ import logger from 'morgan'
 import createError from 'http-errors'
 import cors from "cors"
 
-import exampleRouter from './routes/example'
+import ratingsRouter from './routes/ratings'
 
 const app = express()
 
@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use('/example/endpoint', exampleRouter)
+app.use('/ratings', exampleRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
