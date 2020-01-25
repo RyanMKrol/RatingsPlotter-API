@@ -22,8 +22,10 @@ router.get('/:series', async (req, res, next) => {
       return getSeriesRatings(series)
     }))
 
+    const filteredRatings = seriesRatings.filter((ratings) => ratings.length > 0)
+
     res.send({
-      ratings: seriesRatings
+      ratings: filteredRatings
     })
   } catch(error) {
     res.status(error.StatusCode).send(error)
