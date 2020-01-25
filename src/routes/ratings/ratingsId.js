@@ -33,11 +33,11 @@ router.get('/:id', async (req, res, next) => {
       return acc
     }, {})
 
-    res.send({
-      title: seriesTitle,
+    const response = Object.assign({}, seriesData, {
       ratings: ratingsMap,
-      poster: poster,
     })
+
+    res.send(response)
   } catch(error) {
     res.status(error.StatusCode).send(error)
   }
