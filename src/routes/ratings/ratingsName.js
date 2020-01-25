@@ -1,9 +1,9 @@
 import express from 'express'
 import {
-  fetchSeriesData,
+  fetchSeriesDataByName,
   getSeriesLinks,
   getSeriesRatings,
-} from './../api'
+} from './../../api'
 
 var router = express.Router()
 
@@ -14,12 +14,11 @@ router.use('/', async (req, res, next) => {
 
 router.get('/:series', async (req, res, next) => {
   try {
-    const seriesData = await fetchSeriesData(req.params.series)
+    const seriesData = await fetchSeriesDataByName(req.params.series)
     const seriesId = seriesData.imdbID
     const numSeries = seriesData.totalSeasons
 
     const seriesLinks = getSeriesLinks(numSeries, seriesId)
-    console.log(seriesLinks)
 
     const seriesRatings = await Promise.all(seriesLinks.map(async (series) => {
       return getSeriesRatings(series)

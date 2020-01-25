@@ -8,22 +8,37 @@ import {
   InvalidSeriesType,
 } from './../Errors'
 
-async function fetchSeriesData(seriesName) {
+async function fetchSeriesDataByName(seriesName) {
   const apiKey = getApiKey()
   const seriesInput = encodeURI(seriesName)
   const apiEndpoint = `http://www.omdbapi.com/?apikey=${apiKey}&t=${seriesInput}`
 
   const apiResult = await apiCall(apiEndpoint)
 
-  if (apiResult.Error) {
+  handleResponseErrors(apiResult)
+
+  return apiResult
+}
+
+async function fetchSeriesDataById(seriesId) {
+  const apiKey = getApiKey()
+  const apiEndpoint = `http://www.omdbapi.com/?apikey=${apiKey}&i=${seriesId}`
+
+  const apiResult = await apiCall(apiEndpoint)
+
+  handleResponseErrors(apiResult)
+
+  return apiResult
+}
+
+function handleResponseErrors(apiResponse) {
+  if (apiResponse.Error) {
     throw new SeriesNotFound()
   }
 
-  if (apiResult.Type !== 'series') {
+  if (apiResponse.Type !== 'series') {
     throw new InvalidSeriesType()
   }
-
-  return apiResult
 }
 
 function getApiKey() {
@@ -31,4 +46,7 @@ function getApiKey() {
   return config.apiKey
 }
 
-export default fetchSeriesData
+export {
+  fetchSeriesDataByName,
+  fetchSeriesDataById,
+}
