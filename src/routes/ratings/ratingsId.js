@@ -26,9 +26,12 @@ router.get('/:id', async (req, res, next) => {
 
     const filteredRatings = seriesRatings.filter((ratings) => ratings.length > 0)
 
-    res.send({
-      ratings: filteredRatings
-    })
+    const ratingsMap = filteredRatings.reduce((acc, ratings, index) => {
+      acc[`series_${index+1}`] = ratings
+      return acc
+    }, {})
+
+    res.send(ratingsMap)
   } catch(error) {
     res.status(error.StatusCode).send(error)
   }
