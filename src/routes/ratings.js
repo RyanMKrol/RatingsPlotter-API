@@ -8,12 +8,13 @@ router.use('/', async (req, res, next) => {
   next()
 })
 
-router.get('/:id', async (req, res, next) => {
-  console.log(req.params.id)
-
-  fetchSeriesId(req.params.id)
-
-  res.send("Sending back some data")
+router.get('/:series', async (req, res, next) => {
+  try {
+    const seriesId = await fetchSeriesId(req.params.series)
+    res.send(seriesId)
+  } catch(error) {
+    res.status(error.StatusCode).send(error)
+  }
 })
 
 export default router
