@@ -1,2 +1,5 @@
 export { default as fetchSeriesId } from "./OMDB/omdb"
-export { default as getSeriesLinks } from "./IMDB/imdb"
+export {
+  getSeriesLinks,
+  getSeriesRatings,
+} from "./IMDB/imdb"

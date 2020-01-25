@@ -2,6 +2,7 @@ import express from 'express'
 import {
   fetchSeriesId,
   getSeriesLinks,
+  getSeriesRatings,
 } from './../api'
 
 var router = express.Router()
@@ -14,13 +15,15 @@ router.use('/', async (req, res, next) => {
 router.get('/:series', async (req, res, next) => {
   try {
     const seriesId = await fetchSeriesId(req.params.series)
-    console.log(`The series id is ${seriesId}`)
 
     const seriesLinks = await getSeriesLinks(seriesId)
-    console.log(`The number of series is ${seriesLinks}`)
+
+    const seriesRatings = await Promise.all(seriesLinks.map(async (series) => {
+      return getSeriesRatings(series)
+    }))
 
     res.send({
-      links: seriesLinks
+      ratings: seriesRatings
     })
   } catch(error) {
     res.status(error.StatusCode).send(error)
