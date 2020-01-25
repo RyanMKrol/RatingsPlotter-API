@@ -16,12 +16,13 @@ async function getSeriesLinks(seriesId) {
         // of a season for this show. I'd rather use classes or IDs to find
         // this out, but IMDB just has blank divs with no other information to
         // pick this out easily.
-        const series = $('a')
+        const seriesLinks = $('a')
         .map((_, element) => $(element).attr('href'))
         .get()
         .filter((href) => href.startsWith(`/title/${seriesId}/episodes?season`))
+        .map((relativeUrl) => `https://www.imdb.com${relativeUrl}`)
 
-        resolve(series)
+        resolve(seriesLinks)
       } catch (err) {
         reject(`Could not grab number of pages needed from page: ${url}, error: ${err}`)
       }
