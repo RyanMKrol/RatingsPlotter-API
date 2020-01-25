@@ -17,6 +17,7 @@ router.get('/:series', async (req, res, next) => {
     const seriesData = await fetchSeriesDataByName(req.params.series)
     const seriesId = seriesData.imdbID
     const numSeries = seriesData.totalSeasons
+    const seriesTitle = seriesData.Title
 
     const seriesLinks = getSeriesLinks(numSeries, seriesId)
 
@@ -31,7 +32,10 @@ router.get('/:series', async (req, res, next) => {
       return acc
     }, {})
 
-    res.send(ratingsMap)
+    res.send({
+      title: seriesTitle,
+      ratings: ratingsMap,
+    })
   } catch(error) {
     res.status(error.StatusCode).send(error)
   }

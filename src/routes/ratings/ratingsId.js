@@ -17,6 +17,7 @@ router.get('/:id', async (req, res, next) => {
     const seriesId = req.params.id
     const seriesData = await fetchSeriesDataById(seriesId)
     const numSeries = seriesData.totalSeasons
+    const seriesTitle = seriesData.Title
 
     const seriesLinks = getSeriesLinks(numSeries, seriesId)
 
@@ -31,7 +32,10 @@ router.get('/:id', async (req, res, next) => {
       return acc
     }, {})
 
-    res.send(ratingsMap)
+    res.send({
+      title: seriesTitle,
+      ratings: ratingsMap,
+    })
   } catch(error) {
     res.status(error.StatusCode).send(error)
   }
