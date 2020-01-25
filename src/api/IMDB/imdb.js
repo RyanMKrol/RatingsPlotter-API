@@ -1,7 +1,7 @@
 import curl from "curl"
 import cheerio from "cheerio"
 
-async function getNumberOfSeries(seriesId) {
+async function getSeriesLinks(seriesId) {
   // this is the URL format for a given series with an ID on imdb
   // e.g. https://www.imdb.com/title/tt4574334
   const url = `https://www.imdb.com/title/${seriesId}`
@@ -16,13 +16,12 @@ async function getNumberOfSeries(seriesId) {
         // of a season for this show. I'd rather use classes or IDs to find
         // this out, but IMDB just has blank divs with no other information to
         // pick this out easily.
-        const series = $('a').filter( function(index, element) {
-          const href = $(this).attr('href') || ""
-          return href.startsWith(`/title/${seriesId}/episodes?season`)
-        })
+        const series = $('a')
+        .map((_, element) => $(element).attr('href'))
+        .get()
+        .filter((href) => href.startsWith(`/title/${seriesId}/episodes?season`))
 
-
-        resolve(series.length)
+        resolve(series)
       } catch (err) {
         reject(`Could not grab number of pages needed from page: ${url}, error: ${err}`)
       }
@@ -30,4 +29,4 @@ async function getNumberOfSeries(seriesId) {
   })
 }
 
-export default getNumberOfSeries
+export default getSeriesLinks
