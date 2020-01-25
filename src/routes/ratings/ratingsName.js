@@ -18,6 +18,7 @@ router.get('/:series', async (req, res, next) => {
     const seriesId = seriesData.imdbID
     const numSeries = seriesData.totalSeasons
     const seriesTitle = seriesData.Title
+    const poster = seriesData.Poster
 
     const seriesLinks = getSeriesLinks(numSeries, seriesId)
 
@@ -35,6 +36,7 @@ router.get('/:series', async (req, res, next) => {
     res.send({
       title: seriesTitle,
       ratings: ratingsMap,
+      poster: poster,
     })
   } catch(error) {
     res.status(error.StatusCode).send(error)
