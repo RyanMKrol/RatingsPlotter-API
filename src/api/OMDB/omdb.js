@@ -3,15 +3,20 @@ import fetch from "node-fetch"
 import { apiCall } from './../Utils/ApiUtils'
 import { fetchConfig } from './../Utils/Config'
 
+import { SeriesNotFound } from './../Errors'
+
 async function fetchSeriesId(seriesName) {
   const apiKey = getApiKey()
   const seriesInput = encodeURI(seriesName)
-
   const apiEndpoint = `http://www.omdbapi.com/?apikey=${apiKey}&t=${seriesInput}`
 
   const apiResult = await apiCall(apiEndpoint)
 
-  console.log(apiResult)
+  if (apiResult.Error) {
+    throw new SeriesNotFound()
+  }
+
+  return apiResult.imdbID
 }
 
 function getApiKey() {
