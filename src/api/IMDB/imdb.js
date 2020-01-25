@@ -1,5 +1,6 @@
-import curl from "curl"
-import cheerio from "cheerio"
+import curl from 'curl'
+import cheerio from 'cheerio'
+import url from 'url'
 
 async function getSeriesLinks(seriesId) {
   // this is the URL format for a given series with an ID on imdb
@@ -21,6 +22,7 @@ async function getSeriesLinks(seriesId) {
         .get()
         .filter((href) => href.startsWith(`/title/${seriesId}/episodes?season`))
         .map((relativeUrl) => `https://www.imdb.com${relativeUrl}`)
+        .sort(seriesLinkComparator)
 
         resolve(seriesLinks)
       } catch (err) {
@@ -31,3 +33,11 @@ async function getSeriesLinks(seriesId) {
 }
 
 export default getSeriesLinks
+function seriesLinkComparator(linkA, linkB) {
+  // second argument to parse determines whether the querystring is parsed
+  // as a dictionary or a string, i need the dictionary
+  const urlA = url.parse(linkA, true)
+  const urlB = url.parse(linkB, true)
+
+  return parseInt(urlA.query.season) < parseInt(urlB.query.season) ? -1 : 1;
+}
