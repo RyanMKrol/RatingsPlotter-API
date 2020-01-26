@@ -17,8 +17,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use('/ratings/name', ratingsNameRouter)
-app.use('/ratings/id', ratingsIdRouter)
+app.use('/api/ratings/name', ratingsNameRouter)
+app.use('/api/ratings/id', ratingsIdRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
