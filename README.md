@@ -1,2 +1,6 @@
-# RatingsPlotter
-A project to plot the ratings of series, using data from IMDb
+# RatingsPlotter-API
+The API behind plotatvseries.xyz
+
+## APIs
+* `/api/ratings/name/:name`
+* `/api/ratings/id/:id`
