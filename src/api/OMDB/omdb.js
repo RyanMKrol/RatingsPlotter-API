@@ -1,12 +1,9 @@
-import fetch from "node-fetch"
+import fetch from 'node-fetch'
 
 import { apiCall } from './../Utils/ApiUtils'
 import { fetchConfig } from './../Utils/Config'
 
-import {
-  SeriesNotFound,
-  InvalidSeriesType,
-} from './../Errors'
+import { SeriesNotFound, InvalidSeriesType } from './../Errors'
 
 async function fetchSeriesDataByName(seriesName) {
   const apiKey = getApiKey()
@@ -42,11 +39,10 @@ function handleResponseErrors(apiResponse) {
 }
 
 function getApiKey() {
-  const config = fetchConfig(__dirname + '/../../../credentials/omdbConfig.json')
+  const config = fetchConfig(
+    __dirname + '/../../../credentials/omdbConfig.json'
+  )
   return config.apiKey
 }
 
-export {
-  fetchSeriesDataByName,
-  fetchSeriesDataById,
-}
+export { fetchSeriesDataByName, fetchSeriesDataById }
