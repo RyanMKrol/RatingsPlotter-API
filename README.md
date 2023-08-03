@@ -1,3 +1,7 @@
+# Deprecated
+
+Due to Amazon beefing up their anti-crawling measures on IMDb, this project is no longer viable. Fun while it lasted though!
+
 # RatingsPlotter-API
 
 The API behind plotatvseries.xyz, providing information about TV shows, including episode-by-episode ratings!
